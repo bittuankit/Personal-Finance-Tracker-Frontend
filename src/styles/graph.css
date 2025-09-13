@@ -1,0 +1,35 @@
+.graph {
+  width: 100%;
+}
+
+.graph .top {
+  width: 100%;
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  flex-direction: row;
+  gap: 0.5rem;
+  text-align: center;
+  color: #fff;
+}
+
+.graph .top .allTransactions {
+  padding: 1rem;
+  width: 100%;
+  border-radius: 0.3rem;
+  background: rgb(53, 162, 235);
+}
+
+.graph .top .allExpense {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 0.3rem;
+  background: rgb(53, 162, 235);
+}
+
+.graph .top .allIncome {
+  padding: 1rem;
+  width: 100%;
+  border-radius: 0.3rem;
+  background: rgb(53, 162, 235);
+}

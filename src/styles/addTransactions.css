@@ -1,0 +1,94 @@
+.addTransactions {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #0000005e;
+  width: 100%;
+  height: 100%;
+}
+
+.addCard {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  background: #1cb3ef;
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  color: #fff;
+  border-radius: 0.3rem;
+  z-index: 99;
+  border: 0.5px solid #333;
+}
+
+.addCard .title {
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.addCard #title {
+  width: 70%;
+  padding: 0.3rem;
+  outline: none;
+  border: 0;
+  border-radius: 0.3rem;
+}
+
+.addCard .amount {
+  margin: 1rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.addCard #amount {
+  width: 70%;
+  padding: 0.3rem;
+  outline: none;
+  border: 0;
+  border-radius: 0.3rem;
+}
+
+.addCard .categories {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.addCard .categories .radio {
+  display: flex;
+  gap: 1.3rem;
+}
+
+.addCard .date {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.8rem;
+}
+
+.submit {
+  margin: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submit #submit {
+  padding: 0.3rem 1rem;
+  outline: none;
+  border: 0;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 0.3rem;
+  text-transform: capitalize;
+}
+
+.submit #submit:hover {
+  transition: 0.3s;
+  background: #333;
+  color: #fff;
+}
