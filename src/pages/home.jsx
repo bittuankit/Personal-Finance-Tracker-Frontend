@@ -2,20 +2,18 @@ import { MdFormatListBulletedAdd } from "react-icons/md";
 import { useState } from "react";
 import Card from "../components/card";
 import AddTransactions from "../components/addTransactions";
+import { useDispatch } from "react-redux";
+import { setIsAddTransactions } from "../redux/slice";
+import { useGetTransactionsQuery } from "../redux/services";
 
-const Home = ({ transactions, setTransactions }) => {
+const Home = () => {
+  const allTransactions = useGetTransactionsQuery();
   const [query, setQuery] = useState("");
-  const [isTransaction, setIsTransaction] = useState(false);
-  const [formBtn, setFormBtn] = useState("add");
-  const [transactionData, setTransactionData] = useState({
-    title: "",
-    amount: "",
-    source: "",
-    date: "",
-  });
   const [categories, setCategories] = useState("all");
 
-  let filteredTransactions = transactions
+  const dispatch = useDispatch();
+
+  let filteredTransactions = allTransactions?.data?.transactions
     .filter(
       (element) =>
         element.title.toLowerCase().includes(query) ||
@@ -26,21 +24,13 @@ const Home = ({ transactions, setTransactions }) => {
       categories === "all" ? true : element.source === categories
     );
 
-  const handleIsTransaction = () =>
-    isTransaction ? setIsTransaction(false) : setIsTransaction(true);
+  const handleIsTransaction = () => {
+    dispatch(setIsAddTransactions(true));
+  };
 
   return (
     <>
-      <AddTransactions
-        setIsTransaction={setIsTransaction}
-        isTransaction={isTransaction}
-        setTransactions={setTransactions}
-        transactions={transactions}
-        transactionData={transactionData}
-        setTransactionData={setTransactionData}
-        formBtn={formBtn}
-        setFormBtn={setFormBtn}
-      />
+      <AddTransactions />
       <div className="home">
         <section className="top">
           <form className="transaction-form">
@@ -72,13 +62,7 @@ const Home = ({ transactions, setTransactions }) => {
           </div>
         </section>
         <section className="bottom">
-          <Card
-            transactions={filteredTransactions}
-            setTransaction={setTransactions}
-            setIsTransaction={setIsTransaction}
-            setTransactionData={setTransactionData}
-            setFormBtn={setFormBtn}
-          />
+          <Card transactions={filteredTransactions} />
         </section>
       </div>
     </>

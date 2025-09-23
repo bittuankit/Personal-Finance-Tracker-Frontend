@@ -1,34 +1,35 @@
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import axios from "axios";
-
-const Card = ({
-  transactions,
-  setTransaction,
-  setIsTransaction,
+import { useDispatch } from "react-redux";
+import {
+  setIsAddTransactions,
+  setFormBtnValue,
   setTransactionData,
-  setFormBtn,
-}) => {
+} from "../redux/slice";
+import { useDeleteTransactionsMutation } from "../redux/services";
+
+const Card = ({ transactions }) => {
+  const [deleteTask] = useDeleteTransactionsMutation();
+
+  const dispatch = useDispatch();
+
   const handleEdit = async (currEle) => {
-    setFormBtn("edit");
-    setTransactionData({
-      _id: currEle._id,
-      title: currEle.title,
-      amount: currEle.amount,
-      source: currEle.source,
-      date: new Date(currEle.date).toISOString().split("T")[0],
-    });
-    setIsTransaction(true);
+    dispatch(
+      setTransactionData({
+        _id: currEle._id,
+        title: currEle.title,
+        amount: currEle.amount,
+        source: currEle.source,
+        date: new Date(currEle.date).toISOString().split("T")[0],
+      })
+    );
+    dispatch(setIsAddTransactions(true));
+    dispatch(setFormBtnValue("edit"));
   };
 
   const handleDelete = async (id) => {
     try {
-      const res = await axios.delete(
-        `http://localhost:4000/api/v1/transactions/delete-transaction/${id}`
-      );
-      if (res.status === 200) {
-        setTransaction(transactions.filter((e) => e._id !== id));
-      }
+      await deleteTask(id);
     } catch (error) {
       console.error("Error: ", error);
     }

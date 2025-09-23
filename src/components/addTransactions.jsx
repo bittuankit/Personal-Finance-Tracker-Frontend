@@ -1,65 +1,72 @@
 import { IoMdCloseCircle } from "react-icons/io";
-import axios from "axios";
-
-const AddTransactions = ({
-  setIsTransaction,
-  isTransaction,
-  setTransactions,
-  transactions,
-  transactionData,
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setIsAddTransactions,
+  setFormBtnValue,
   setTransactionData,
-  formBtn,
-  setFormBtn,
-}) => {
+} from "../redux/slice";
+import {
+  usePostTransactionsMutation,
+  useUpdateTransactionsMutation,
+} from "../redux/services";
+
+const AddTransactions = () => {
+  const { isAddTransactions, formBtnValue, transactionData } = useSelector(
+    (state) => state.transactions
+  );
+
+  const dispatch = useDispatch();
+
+  const [postTransactionsData] = usePostTransactionsMutation();
+  const [
+    updateTask,
+    { isSuccess: isTaskUpdatedSuccess, error: isTaskUpdatedError },
+  ] = useUpdateTransactionsMutation();
+
   const handleClose = () => {
-    setIsTransaction(false);
-    setTransactionData({
-      title: "",
-      amount: "",
-      source: "",
-      date: "",
-    });
-    setFormBtn("add");
+    dispatch(setIsAddTransactions(false));
+    dispatch(setFormBtnValue("add"));
+    dispatch(
+      setTransactionData({
+        title: "",
+        amount: "",
+        source: "",
+        date: "",
+      })
+    );
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setTransactionData({ ...transactionData, [name]: value });
+    dispatch(setTransactionData({ ...transactionData, [name]: value }));
   };
 
   const handleTransactionSubmit = async (e) => {
     e.preventDefault();
 
-    const formBtnValue = e.nativeEvent.submitter.value;
-
     if (formBtnValue === "add") {
-      const res = await axios.post(
-        "http://localhost:4000/api/v1/transactions/post-transactions",
-        transactionData
-      );
-      setTransactions([res.data.transactionPostData, ...transactions]);
+      await postTransactionsData(transactionData);
     }
 
     if (formBtnValue === "edit") {
-      const res = await axios.put(
-        `http://localhost:4000/api/v1/transactions/update-transactions/${transactionData._id}`,
-        { ...transactionData }
-      );
-      setIsTransaction(false);
+      await updateTask(transactionData);
+      dispatch(setIsAddTransactions(false));
     }
 
-    setTransactionData({
-      title: "",
-      amount: "",
-      source: "",
-      date: "",
-    });
+    dispatch(
+      setTransactionData({
+        title: "",
+        amount: "",
+        source: "",
+        date: "",
+      })
+    );
   };
 
   return (
     <div
       className="addTransactions"
-      style={isTransaction ? { display: "block" } : { display: "none" }}
+      style={isAddTransactions ? { display: "block" } : { display: "none" }}
     >
       <div className="addCard">
         <div
@@ -70,7 +77,7 @@ const AddTransactions = ({
           }}
         >
           <h3>
-            {formBtn === "add" ? "Add Transactions" : "Edit Transactions"}
+            {formBtnValue === "add" ? "Add Transactions" : "Edit Transactions"}
           </h3>
           <IoMdCloseCircle
             style={{ fontSize: "2rem", cursor: "pointer" }}
@@ -85,7 +92,7 @@ const AddTransactions = ({
               name="title"
               id="title"
               placeholder="e.g travelling, movies, salary"
-              value={transactionData.title}
+              value={transactionData.title ?? ""}
               onChange={handleChange}
               required
             />
@@ -97,7 +104,7 @@ const AddTransactions = ({
               name="amount"
               id="amount"
               placeholder="e.g 500,1200"
-              value={transactionData.amount}
+              value={transactionData.amount ?? ""}
               onChange={handleChange}
               required
             />
@@ -139,13 +146,13 @@ const AddTransactions = ({
               type="date"
               name="date"
               id="date"
-              value={transactionData.date}
+              value={transactionData.date ?? ""}
               onChange={handleChange}
               required
             />
           </div>
           <div className="submit">
-            <input id="submit" type="submit" value={formBtn} />
+            <input id="submit" type="submit" value={formBtnValue} />
           </div>
         </form>
       </div>
