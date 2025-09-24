@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { BarChart, LineChart } from "../components/chart";
+import { useGetTransactionsQuery } from "../redux/services";
 
-const Graph = ({ transactions }) => {
+const Graph = () => {
+  const transactions = useGetTransactionsQuery();
+
   const [expenseData, setExpenseData] = useState(new Array(7).fill(0));
   const [incomeData, setIncomeData] = useState(new Array(7).fill(0));
   const [totalExpense, setTotalExpense] = useState(0);
@@ -19,7 +22,7 @@ const Graph = ({ transactions }) => {
     let exp = 0;
     let inc = 0;
 
-    transactions.forEach((e) => {
+    transactions?.data?.transactions.forEach((e) => {
       const dayIndex = getDayIndex(e.date);
       if (e.source.includes("expense")) {
         expenseArr[dayIndex] += Math.abs(e.amount);
@@ -40,14 +43,14 @@ const Graph = ({ transactions }) => {
     <div className="graph">
       <section className="top">
         <div className="allTransactions">
-          Total Transactions: {transactions.length}
+          Total Transactions: {transactions?.data?.transactions.length}
         </div>
         <div className="allExpense">Total Expense: {totalExpense}</div>
         <div className="allIncome">Total Income: {totalIncome}</div>
       </section>
       <section className="bottom">
         <LineChart
-          transactions={transactions.length}
+          transactions={transactions?.data?.transactions.length}
           expense={expenseData}
           income={incomeData}
         />
