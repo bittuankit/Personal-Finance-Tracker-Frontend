@@ -5,7 +5,7 @@ import {
   setIsAddTransactions,
   setFormBtnValue,
   setTransactionData,
-} from "../redux/slice";
+} from "../redux/transactionSlice";
 import { useDeleteTransactionsMutation } from "../redux/services";
 
 const Card = ({ transactions }) => {

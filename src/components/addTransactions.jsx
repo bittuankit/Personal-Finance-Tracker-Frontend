@@ -4,7 +4,7 @@ import {
   setIsAddTransactions,
   setFormBtnValue,
   setTransactionData,
-} from "../redux/slice";
+} from "../redux/transactionSlice";
 import {
   usePostTransactionsMutation,
   useUpdateTransactionsMutation,
@@ -152,7 +152,7 @@ const AddTransactions = () => {
             />
           </div>
           <div className="submit">
-            <input id="submit" type="submit" value={formBtnValue} />
+            <input className="submitBtn" type="submit" value={formBtnValue} />
           </div>
         </form>
       </div>

@@ -47,6 +47,14 @@
   transition: 0.3s;
 }
 
+#user-icon {
+  font-size: 1.5rem;
+  margin-left: 0.5rem;
+  color: #000;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
 .category-btn {
   display: flex;
   justify-content: flex-end;

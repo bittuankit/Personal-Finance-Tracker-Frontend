@@ -3,8 +3,13 @@ import { useState } from "react";
 import Card from "../components/card";
 import AddTransactions from "../components/addTransactions";
 import { useDispatch } from "react-redux";
-import { setIsAddTransactions } from "../redux/slice";
+import { setIsAddTransactions } from "../redux/transactionSlice";
 import { useGetTransactionsQuery } from "../redux/services";
+import { CgProfile } from "react-icons/cg";
+import { TiUserAddOutline } from "react-icons/ti";
+import AddUser from "../components/addUser";
+import { setIsAddUser } from "../redux/userSlice";
+import { useGetProfileQuery } from "../redux/userService";
 
 const Home = () => {
   const allTransactions = useGetTransactionsQuery();
@@ -12,6 +17,8 @@ const Home = () => {
   const [categories, setCategories] = useState("all");
 
   const dispatch = useDispatch();
+
+  const profile = useGetProfileQuery();
 
   let filteredTransactions = allTransactions?.data?.transactions
     .filter(
@@ -31,6 +38,7 @@ const Home = () => {
   return (
     <>
       <AddTransactions />
+      <AddUser />
       <div className="home">
         <section className="top">
           <form className="transaction-form">
@@ -40,10 +48,20 @@ const Home = () => {
               placeholder="Search title, amount and date"
               onChange={(e) => setQuery(e.target.value)}
             />
-            <MdFormatListBulletedAdd
-              id="transaction-icon"
-              onClick={handleIsTransaction}
-            />
+            {profile?.data && (
+              <MdFormatListBulletedAdd
+                id="transaction-icon"
+                onClick={handleIsTransaction}
+              />
+            )}
+            {profile?.data ? (
+              <CgProfile id="user-icon" />
+            ) : (
+              <TiUserAddOutline
+                id="user-icon"
+                onClick={() => dispatch(setIsAddUser(true))}
+              />
+            )}
           </form>
         </section>
         <section className="middle">

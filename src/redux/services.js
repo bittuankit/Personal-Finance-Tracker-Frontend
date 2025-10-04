@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setAllTransactions } from "./slice";
+import { setAllTransactions } from "./transactionSlice";
 
 export const serviceApi = createApi({
   reducerPath: "serviceApi",

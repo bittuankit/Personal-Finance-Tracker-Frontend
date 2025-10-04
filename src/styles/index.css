@@ -4,6 +4,7 @@
 @import "./card.css";
 @import "./addTransactions.css";
 @import "./graph.css";
+@import "./userForm.css";
 
 * {
   padding: 0;
